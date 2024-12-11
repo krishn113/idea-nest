@@ -1,21 +1,24 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { auth } from "./firebase"; // Replace with your Firebase auth instance
-// import "./Navbar.css"; // Optional for custom styles
+import { auth } from "./firebase"; 
 
 const Navbar = ({ user }) => {
   const handleSignOut = async () => {
     await auth.signOut();
-    window.location.href = "/"; // Redirect to home after sign-out // replace with home page
+    window.location.href = "/"; //redirects to home after signout.
   };
 
   return (
     <header className="navbar px-5 py-3 bg-white shadow-sm font-work-sans">
       <nav className="flex justify-between items-center">
         {/* Logo Section on clicking this redirects to the home page */}
-        <Link to="/">
-          <img src="/logo.png" alt="logo" width="144" height="30" />
-        </Link>
+        <Link to="/" className="flex items-center">
+  <img 
+    src="/logo.svg" 
+    alt="logo" 
+    className="h-10 w-auto" // Adjust height and maintain aspect ratio
+  />
+</Link>
 
         {/* Links Section */}
         <div className="flex items-center gap-5 text-black">
