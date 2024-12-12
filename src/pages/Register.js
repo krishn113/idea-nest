@@ -1,24 +1,35 @@
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import React, { useState } from "react";
-import { auth } from "./firebase";
+import { auth, db } from "../components/firebase";
+import { setDoc, doc } from "firebase/firestore";
 import { toast } from "react-toastify";
 
-function Login() {
+function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [fname, setFname] = useState("");
+  const [lname, setLname] = useState("");
 
-  const handleSubmit = async (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
     try {
-      await signInWithEmailAndPassword(auth, email, password);
-      console.log("User logged in Successfully");
-      window.location.href = "/";
-      toast.success("User logged in Successfully", {
+      await createUserWithEmailAndPassword(auth, email, password);
+      const user = auth.currentUser;
+      console.log(user);
+      if (user) {
+        await setDoc(doc(db, "Users", user.uid), {
+          email: user.email,
+          firstName: fname,
+          lastName: lname,
+          photo: "",
+        });
+      }
+      console.log("User Registered Successfully!!");
+      toast.success("User Registered Successfully!!", {
         position: "top-center",
       });
     } catch (error) {
       console.log(error.message);
-
       toast.error(error.message, {
         position: "bottom-center",
       });
@@ -26,10 +37,7 @@ function Login() {
   };
 
   return (
-    <div
-      className="relative min-h-screen bg-cover bg-center flex items-center justify-center"
-      style={{ backgroundImage: "url('/your-background-image.jpg')" }}
-    >
+    <div className="relative min-h-screen bg-cover bg-center flex items-center justify-center" style={{ backgroundImage: "url('/your-background-image.jpg')" }}>
       <div className="absolute top-0 left-0 w-full h-full bg-black opacity-40"></div>
 
       <div className="z-10 flex flex-col lg:flex-row items-center lg:items-start justify-between w-full max-w-6xl px-6">
@@ -46,12 +54,37 @@ function Login() {
 
         {/* Form Section */}
         <form
-          onSubmit={handleSubmit}
-          className="bg-white p-8 rounded-xl shadow-2xl w-[420px] lg:ml-auto"
+          onSubmit={handleRegister}
+          className="bg-white p-8 rounded-xl shadow-2xl w-full max-w-md lg:ml-auto"
         >
           <h3 className="text-2xl font-bold text-gray-800 text-center mb-6">
-            Login
+            Sign Up
           </h3>
+
+          <div className="mb-4">
+            <label className="block text-gray-700 font-medium mb-2">
+              First Name
+            </label>
+            <input
+              type="text"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-400 outline-none"
+              placeholder="Enter your first name"
+              onChange={(e) => setFname(e.target.value)}
+              required
+            />
+          </div>
+
+          <div className="mb-4">
+            <label className="block text-gray-700 font-medium mb-2">
+              Last Name
+            </label>
+            <input
+              type="text"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-400 outline-none"
+              placeholder="Enter your last name"
+              onChange={(e) => setLname(e.target.value)}
+            />
+          </div>
 
           <div className="mb-4">
             <label className="block text-gray-700 font-medium mb-2">
@@ -61,7 +94,6 @@ function Login() {
               type="email"
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-400 outline-none"
               placeholder="Enter your email"
-              value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
             />
@@ -75,7 +107,6 @@ function Login() {
               type="password"
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-400 outline-none"
               placeholder="Enter your password"
-              value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
             />
@@ -85,13 +116,13 @@ function Login() {
             type="submit"
             className="w-full bg-indigo-500 text-white py-2 px-4 rounded-lg hover:bg-indigo-600 transition duration-300"
           >
-            Submit
+            Sign Up
           </button>
 
           <p className="text-center text-sm text-gray-600 mt-4">
-            New user?{' '}
-            <a href="/register" className="text-indigo-500 hover:underline">
-              Register Here
+            Already registered?{' '}
+            <a href="/login" className="text-indigo-500 hover:underline">
+              Login
             </a>
           </p>
         </form>
@@ -100,4 +131,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default Register;
