@@ -35,7 +35,7 @@ const Navbar = ({ user }) => {
               </button>
 
               {/* User Profile Picture */}
-              <Link to={`/user/${user.uid}`} className="user-profile">
+              <Link to={"/profile"} className="user-profile">
                 <img
                   src={user.photoURL || "/default-avatar.png"} // Default avatar if no photo
                   alt={user.displayName || "User"}
