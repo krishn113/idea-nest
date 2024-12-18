@@ -28,7 +28,7 @@ function Login() {
   return (
     <div
       className="relative min-h-screen bg-cover bg-center flex items-center justify-center"
-      style={{ backgroundImage: "url('/your-background-image.jpg')" }}
+      style={{ backgroundImage: "url('/backdrop.jpg')" }}
     >
       <div className="absolute top-0 left-0 w-full h-full bg-black opacity-40"></div>
 
@@ -54,12 +54,12 @@ function Login() {
           </h3>
 
           <div className="mb-4">
-            <label className="block text-gray-700 font-medium mb-2">
+            <label className="form-label">
               Email Address
             </label>
             <input
               type="email"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-400 outline-none"
+              className="form-fill"
               placeholder="Enter your email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -68,12 +68,12 @@ function Login() {
           </div>
 
           <div className="mb-6">
-            <label className="block text-gray-700 font-medium mb-2">
+            <label className="form-label">
               Password
             </label>
             <input
               type="password"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-400 outline-none"
+              className="form-fill"
               placeholder="Enter your password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -83,14 +83,14 @@ function Login() {
 
           <button
             type="submit"
-            className="w-full bg-indigo-500 text-white py-2 px-4 rounded-lg hover:bg-indigo-600 transition duration-300"
+            className="w-full btn-hero-pink"
           >
             Submit
           </button>
 
           <p className="text-center text-sm text-gray-600 mt-4">
             New user?{' '}
-            <a href="/register" className="text-indigo-500 hover:underline">
+            <a href="/register" className="text-pink-600 hover:underline">
               Register Here
             </a>
           </p>

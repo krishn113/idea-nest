@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import React, { useState } from "react";
 import { auth, db } from "../components/firebase";
 import { setDoc, doc } from "firebase/firestore";
@@ -13,23 +13,35 @@ function Register() {
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
-      const user = auth.currentUser;
-      console.log(user);
-      if (user) {
-        await setDoc(doc(db, "Users", user.uid), {
-          email: user.email,
-          firstName: fname,
-          lastName: lname,
-          photo: "",
-        });
-      }
+      // Create a new user with email and password
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+
+      // Set display name in the user profile
+      await updateProfile(user, {
+        displayName: `${fname} ${lname}`.trim(), // Use fname and lname
+      });
+
+      // Save additional user details to Firestore
+      await setDoc(doc(db, "Users", user.uid), {
+        email: user.email,
+        firstName: fname,
+        lastName: lname,
+        photo: "",
+      });
+
       console.log("User Registered Successfully!!");
       toast.success("User Registered Successfully!!", {
         position: "top-center",
       });
+
+      // Clear the form (optional)
+      setEmail("");
+      setPassword("");
+      setFname("");
+      setLname("");
     } catch (error) {
-      console.log(error.message);
+      console.error("Registration error:", error.message);
       toast.error(error.message, {
         position: "bottom-center",
       });
@@ -37,7 +49,10 @@ function Register() {
   };
 
   return (
-    <div className="relative min-h-screen bg-cover bg-center flex items-center justify-center" style={{ backgroundImage: "url('/your-background-image.jpg')" }}>
+    <div
+    className="relative min-h-screen bg-cover bg-center flex items-center justify-center"
+    style={{ backgroundImage: "url('/backdrop.jpg')" }}
+    >
       <div className="absolute top-0 left-0 w-full h-full bg-black opacity-40"></div>
 
       <div className="z-10 flex flex-col lg:flex-row items-center lg:items-start justify-between w-full max-w-6xl px-6">
@@ -62,51 +77,56 @@ function Register() {
           </h3>
 
           <div className="mb-4">
-            <label className="block text-gray-700 font-medium mb-2">
+            <label className="form-label">
               First Name
             </label>
             <input
               type="text"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-400 outline-none"
+              className="form-fill"
               placeholder="Enter your first name"
+              value={fname}
               onChange={(e) => setFname(e.target.value)}
               required
             />
           </div>
 
           <div className="mb-4">
-            <label className="block text-gray-700 font-medium mb-2">
+            <label className="form-label">
               Last Name
             </label>
             <input
               type="text"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-400 outline-none"
+              className="form-fill"
               placeholder="Enter your last name"
+              value={lname}
               onChange={(e) => setLname(e.target.value)}
+              required
             />
           </div>
 
           <div className="mb-4">
-            <label className="block text-gray-700 font-medium mb-2">
+            <label className="form-label">
               Email Address
             </label>
             <input
               type="email"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-400 outline-none"
+              className="form-fill"
               placeholder="Enter your email"
+              value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
             />
           </div>
 
           <div className="mb-6">
-            <label className="block text-gray-700 font-medium mb-2">
+            <label className="form-label">
               Password
             </label>
             <input
               type="password"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-400 outline-none"
+              className="form-fill"
               placeholder="Enter your password"
+              value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
             />
@@ -114,14 +134,14 @@ function Register() {
 
           <button
             type="submit"
-            className="w-full bg-indigo-500 text-white py-2 px-4 rounded-lg hover:bg-indigo-600 transition duration-300"
+            className="w-full btn-hero-pink"
           >
             Sign Up
           </button>
 
           <p className="text-center text-sm text-gray-600 mt-4">
             Already registered?{' '}
-            <a href="/login" className="text-indigo-500 hover:underline">
+            <a href="/login" className="text-pink-600 hover:underline">
               Login
             </a>
           </p>

@@ -1,58 +1,75 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { auth } from "./firebase"; 
+import { auth } from "./firebase";
 
 const Navbar = ({ user }) => {
   const handleSignOut = async () => {
     await auth.signOut();
-    window.location.href = "/"; //redirects to home after signout.
+    window.location.href = "/"; // Redirects to home after signout.
   };
 
   return (
-    <header className="navbar px-5 py-3 bg-white shadow-sm font-work-sans">
-      <nav className="flex justify-between items-center">
-        {/* Logo Section on clicking this redirects to the home page */}
-        <Link to="/" className="flex items-center">
-  <img 
-    src="/logo.svg" 
-    alt="logo" 
-    className="h-10 w-auto" // Adjust height and maintain aspect ratio
-  />
-</Link>
+    <header className="px-2 py-3 bg-white shadow-md text-pink-100">
+      <nav className="flex justify-between items-center sticky top-0 overflow-hidden">
+        {/* Logo Section */}
+        <Link to="/" className="flex items-center text-pink-400 text-xl font-serif font-semibold">
+          IdeaNest
+        </Link>
 
         {/* Links Section */}
-        <div className="flex items-center gap-5 text-black">
+        <div className="flex items-center gap-5">
           {user ? (
             <>
-              {/* Create Button // link to the page where the user can add startup ideas form page basically */}
-              <Link to="/startup/create" className="btn btn-create">
+              {/* Explore Button */}
+                            <Link
+                to="/explore"
+                className="px-4 py-2 text-sm font-medium rounded-md text-pink-400"
+              >
+                Explore
+              </Link>
+              {/* Create Button */}
+              <Link
+                to="/startup/create"
+                className="px-4 py-2 text-sm font-medium rounded-md text-pink-400"
+              >
                 Create
               </Link>
 
               {/* Logout Button */}
-              <button onClick={handleSignOut} className="btn btn-logout">
+              <button
+                onClick={handleSignOut}
+                className="btn"
+              >
                 Logout
               </button>
 
               {/* User Profile Picture */}
-              <Link to={"/profile"} className="user-profile">
+              <Link to={"/profile"} className="flex items-center gap-2">
                 <img
-                  src={user.photoURL || "/default-avatar.png"} // Default avatar if no photo
+                  src={user.photoURL || "/avatar.jpg"}
                   alt={user.displayName || "User"}
-                  className="w-10 h-10 rounded-full border"
+                  className="w-10 h-10 rounded-full border border-gray-200"
                 />
-                <span className="hidden sm:block">
-                  {user.displayName || "User"}
-                </span>
               </Link>
             </>
           ) : (
-            <button
-              onClick={() => (window.location.href = "/login")}
-              className="btn-login"
-            >
-              Login
-            </button>
+            <>
+              {/* Create Button */}
+              <Link
+                to="/explore"
+                className="px-4 py-2 text-sm font-medium rounded-md text-pink-400"
+              >
+                Create
+              </Link>
+
+              {/* Login Button */}
+              <button
+                onClick={() => (window.location.href = "/login")}
+                className="btn"
+              >
+                Login
+              </button>
+            </>
           )}
         </div>
       </nav>

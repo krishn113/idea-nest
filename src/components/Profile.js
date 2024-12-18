@@ -59,3 +59,23 @@ function Profile() {
   );
 }
 export default Profile;
+
+// import { collection, query, where, getDocs } from "firebase/firestore";
+// import { auth } from "./firebase";
+// import { db } from "./firebase";
+
+// const fetchUserIdeas = async () => {
+//   try {
+//     const user = auth.currentUser; // Get the logged-in user
+//     if (!user) throw new Error("User not logged in");
+
+//     const ideasRef = collection(db, "ideas");
+//     const q = query(ideasRef, where("userId", "==", user.uid)); // Filter by userId
+
+//     const querySnapshot = await getDocs(q);
+//     const ideas = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+//     return ideas;
+//   } catch (error) {
+//     console.error("Error fetching ideas: ", error);
+//   }
+// };e
