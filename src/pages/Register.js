@@ -13,16 +13,15 @@ function Register() {
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
-      // Create a new user with email and password
+
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
 
-      // Set display name in the user profile
+ 
       await updateProfile(user, {
-        displayName: `${fname} ${lname}`.trim(), // Use fname and lname
+        displayName: `${fname} ${lname}`.trim(), 
       });
 
-      // Save additional user details to Firestore
       await setDoc(doc(db, "Users", user.uid), {
         email: user.email,
         firstName: fname,
@@ -35,7 +34,6 @@ function Register() {
         position: "top-center",
       });
 
-      // Clear the form (optional)
       setEmail("");
       setPassword("");
       setFname("");

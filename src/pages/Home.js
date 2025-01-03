@@ -4,7 +4,7 @@ import KeyFeatures from '../components/keyfeatures';
 const HeroSection = () => {
   return (
 <section className="relative bg-gray-900">
-  <div className="container mx-auto px-6 lg:px-20 py-20 text-center lg:text-left relative z-10">
+  <div className="container mx-auto px-6 lg:px-20 py-20 text-center lg:text-left relative z-10  bg-gray-900">
     <div className="flex flex-col lg:flex-row items-center lg:justify-between">
       {/* Text Content */}
       <div className="max-w-2xl">
@@ -31,7 +31,9 @@ const HeroSection = () => {
       </div>
     </div>
   </div>
-    <KeyFeatures />
+  <div className='bg-white'>
+   <KeyFeatures />
+  </div>
 </section>
   );
 };

@@ -29,8 +29,9 @@ const Create = () => {
       });
       return;
     }
-
+    const uniqueId = user.uid + "_" + Date.now();
     const pitchData = {
+      id: uniqueId,
       title,
       description,
       category,
@@ -48,7 +49,7 @@ const Create = () => {
     setLoading(true);
 
     try {
-      await setDoc(doc(db, "ideas", user.uid + "_" + Date.now()), pitchData);
+      await setDoc(doc(db, "ideas", uniqueId), pitchData);
       toast.success("Pitch submitted successfully!", {
         position: "top-center",
       });

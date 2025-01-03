@@ -87,7 +87,7 @@ const Profile = () => {
         ) : (
           <ul className="space-y-6">
             {userIdeas.map((idea, index) => (
-              <li key={index} className="bg-white shadow-lg rounded-lg p-4">
+              <li key={index} className="bg-pink-50 shadow-lg rounded-lg p-4">
                 <h3 className="text-xl font-semibold">{idea.title}</h3>
                 <p className="text-sm text-gray-500">{idea.category}</p>
                 <p className="mt-2">{idea.description}</p>

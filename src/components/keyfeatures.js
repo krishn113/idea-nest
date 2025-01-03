@@ -21,7 +21,7 @@ const KeyFeatures = () => {
   ];
 
   return (
-    <section className="bg-gray-100 py-16">
+    <div className="py-16">
       <div className="container mx-auto px-6 lg:px-20 text-center">
         <h2 className="text-3xl font-bold text-gray-800">Key Features</h2>
         <p className="mt-4 text-gray-600">
@@ -31,7 +31,7 @@ const KeyFeatures = () => {
           {features.map((feature, index) => (
             <div
               key={index}
-              className="bg-white shadow-lg rounded-lg p-6 flex flex-col items-center text-center"
+              className="bg-gray-50 shadow-lg rounded-lg p-6 flex flex-col items-center text-center"
             >
               <div>{feature.icon}</div>
               <h3 className="mt-4 text-xl font-semibold text-gray-800">
@@ -42,7 +42,7 @@ const KeyFeatures = () => {
           ))}
         </div>
       </div>
-    </section>
+    </div>
   );
 };
 
